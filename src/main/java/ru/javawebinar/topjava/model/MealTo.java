@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class MealTo {
-    private final LocalDateTime dateTime;
+    private LocalDateTime dateTime;
 
     private final String description;
 
@@ -19,7 +19,7 @@ public class MealTo {
         this.excess = excess;
     }
 
-    public MealTo(UserMeal meal, boolean excess) {
+    public MealTo(Meal meal, boolean excess) {
         this.dateTime = meal.getDateTime();
         this.description = meal.getDescription();
         this.calories = meal.getCalories();
@@ -60,7 +60,7 @@ public class MealTo {
                 '}';
     }
 
-    public static UserMealWithExcess generateEmptyMealByDate(LocalDate date) {
-        return new UserMealWithExcess(date.atStartOfDay(), "", 0, false);
+    public static MealTo generateEmptyMealByDate(LocalDate date) {
+        return new MealTo(date.atStartOfDay(), "", 0, false);
     }
 }
