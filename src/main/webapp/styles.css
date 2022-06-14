@@ -1,0 +1,10 @@
+table {
+    display: inline-table;
+    border: solid 1px;
+}
+
+table th,
+table td {
+    padding: 4px 6px;
+    border: 1px solid black;
+}
