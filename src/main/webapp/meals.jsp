@@ -16,10 +16,12 @@
 <body>
 <h3><a href="index.html">Home</a></h3>
 <table>
+    <p><a href="meals?action=insert">Add Meal</a></p>
     <tr>
         <th>Date</th>
         <th>Description</th>
         <th>Calories</th>
+        <th colspan=2>Action</th>
     </tr>
     <c:forEach var="meal" items="${meals}">
         <c:set var="color" value="green"/>
@@ -27,9 +29,11 @@
             <c:set var="color" value="red"/>
         </c:if>
         <tr style="color:${color}">
-            <td>${f:formatLocalDateTime(meal.dateTime, "yyyy-MM-dd hh:mm")}</td>
+            <td>${f:formatLocalDateTime(meal.dateTime)}</td>
             <td>${meal.description}</td>
             <td>${meal.calories}</td>
+            <td><a href="meals?action=edit&mealId=<c:out value="${meal.id}"/>">Update</a></td>
+            <td><a href="meals?action=delete&mealId=<c:out value="${meal.id}"/>">Delete</a></td>
         </tr>
     </c:forEach>
 </table>

@@ -7,4 +7,16 @@ table th,
 table td {
     padding: 4px 6px;
     border: 1px solid black;
+    border-collapse: collapse
+}
+.field {
+    margin-bottom: 10px;
+}
+label {
+    display: block;
+    float: left;
+    text-align: right;
+    width: 100px;
+    height: 15px;
+    margin-right: 10px;
 }
