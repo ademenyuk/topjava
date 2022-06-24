@@ -14,6 +14,30 @@
         .excess {
             color: red;
         }
+
+        .border-dark {
+            border: 1px solid #444444;
+        }
+
+        .row {
+            display: flex;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
+        .filter {
+            padding: 15px;
+            max-width: 120px;
+            text-align: center;
+        }
+
+        .button-panel {
+            padding: 0.75rem 1.25rem;
+        }
+
+        .filter-button {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -23,6 +47,33 @@
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <br><br>
+    <div class="border-dark">
+        <form action="meals">
+            <input name = "action" value="filter" hidden>
+            <div class="row">
+                <div class="filter">
+                    <label for="dateFrom">От даты (включая)</label><br><br>
+                    <input name="dateFrom" id="dateFrom" value="${dateFrom}" type="date">
+                </div>
+                <div class="filter">
+                    <label for="dateTo">До даты (включая)</label><br><br>
+                    <input name="dateTo" id="dateTo" value="${dateTo}" type="date">
+                </div>
+                <div class="filter">
+                    <label for="timeFrom">От времени (включая)</label><br><br>
+                    <input name="timeFrom" id="timeFrom" value="${timeFrom}" type="time">
+                </div>
+                <div class="filter">
+                    <label for="timeTo">До времени (исключая)</label><br><br>
+                    <input name="timeTo" id="timeTo" value="${timeTo}" type="time">
+                </div>
+            </div>
+            <div class="button-panel">
+                <button class="filter-button" type="submit">Применить</button>
+            </div>
+        </form>
+    </div>
+    <br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>

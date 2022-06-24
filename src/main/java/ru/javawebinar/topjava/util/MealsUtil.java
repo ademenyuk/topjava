@@ -7,10 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -33,6 +30,12 @@ public class MealsUtil {
 
     public static List<MealTo> getFilteredTos(Collection<Meal> meals, int caloriesPerDay, LocalTime startTime, LocalTime endTime) {
         return filterByPredicate(meals, caloriesPerDay, meal -> DateTimeUtil.isBetweenHalfOpen(meal.getTime(), startTime, endTime));
+    }
+
+    public static List<Meal> getFilteredMeals(Collection<Meal> meals, LocalDate dateFrom, LocalDate dateTo) {
+        return meals.stream().filter(meal -> DateTimeUtil.isBetween(meal.getDate(), dateFrom, dateTo))
+                .sorted(Comparator.comparing(Meal::getDateTime))
+                .collect(Collectors.toList());
     }
 
     private static List<MealTo> filterByPredicate(Collection<Meal> meals, int caloriesPerDay, Predicate<Meal> filter) {
