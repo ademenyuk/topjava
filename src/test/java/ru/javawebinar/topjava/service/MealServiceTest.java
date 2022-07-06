@@ -1,7 +1,17 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.AssumptionViolatedException;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExternalResource;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.junit.runners.model.Statement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,6 +23,9 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -30,6 +43,59 @@ public class MealServiceTest {
 
     @Autowired
     private MealService service;
+
+    private static Map<String, Long> testMethodsAndDurationMap = new HashMap<>();
+    private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
+
+    @Rule
+    public final TestRule watchman = new TestWatcher() {
+
+        private Date start;
+
+        @Override
+        public Statement apply(Statement base, Description description) {
+            return super.apply(base, description);
+        }
+
+        @Override
+        protected void succeeded(Description description) {
+            super.succeeded(description);
+        }
+
+        @Override
+        protected void failed(Throwable e, Description description) {
+            super.failed(e, description);
+        }
+
+        @Override
+        protected void skipped(AssumptionViolatedException e, Description description) {
+            super.skipped(e, description);
+        }
+
+        @Override
+        protected void starting(Description description) {
+            start = new Date();
+            super.starting(description);
+        }
+
+        @Override
+        protected void finished(Description description) {
+            super.finished(description);
+            long duration = new Date().getTime() - start.getTime();
+            log.info("Время выполнения " + description.getMethodName() + " " +
+                    duration + " мс");
+            testMethodsAndDurationMap.put(description.getMethodName(), duration);
+        }
+    };
+
+    @ClassRule
+    public static final ExternalResource resource = new ExternalResource() {
+        @Override
+        protected void after() {
+            super.after();
+            log.info(testMethodsAndDurationMap.toString());
+        }
+    };
 
     @Test
     public void delete() {
